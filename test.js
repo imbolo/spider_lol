@@ -6,5 +6,7 @@ var $ = require('jquery'),
 test();
 
 function test() {
-	console.log(zb[1001]);
+	$.get('http://www.baidu.com', function(data) {
+		console.log(data);
+	});
 }

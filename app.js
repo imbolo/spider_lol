@@ -1,16 +1,17 @@
 var $ = require('jquery'),
 	http = require('http'),
 	fs = require('fs'),
-	db = require("mongous").Mongous;
+	lnet = require('./util/lnet.js'),
+	db = require("mongous").Mongous,
+	zb = require('./data/zbItems');
 
 // getHerosAbilities();
 getHeroList();	
 
-
 //获取英雄列表页面
 function getHeroList() {
 	http.get("http://lol.duowan.com/hero/", function(res) {
-		console.log("Got response: " + res.statusCode);
+		// console.log("Got response: " + res.statusCode);
 		var pageData = "";
 		res.setEncoding('utf8');
 		res.on('data', function (chunk) {
@@ -43,7 +44,7 @@ function analysisHeroListPage(pageData) {
 		// saveHeroListToFile(hero);
 		
 		http.get(hero.detail_url, function(res) {
-			console.log("Got response: " + res.statusCode);
+			// console.log("Got response: " + res.statusCode);
 			var pageData = "";
 			res.setEncoding('utf8');
 			res.on('data', function (chunk) {
@@ -52,8 +53,8 @@ function analysisHeroListPage(pageData) {
 			//获取完毕，解析
 			res.on('end', function(){
 				//解析
-				fs.writeFile('./tmp/'+hero.name+'.html', pageData);
-				// analysisHeroDetailPage(pageData);
+				// fs.writeFile('./tmp/'+hero.name+'.html', pageData);
+				analysisHeroDetailPage(pageData);
 			});
   
 		});
@@ -65,60 +66,48 @@ function analysisHeroDetailPage(pageData) {
 	var document = $(pageData);
 	//推荐加点和出装，数组，数据项可能不止一个
 	//tab标题
-	var howto_titles = document.find('.J_nav li');
-	//detai部分，tab分页的内容
-	var howto_detail = document.find('.mod-tab-content');
-	var howto_skills = howto_detail.find('.skills');
-		console.log( 
-			document.find('dl').length
-		);
-		
-	//指南数组
-	var howto = {};
-	//tab 分页标题
-	for (var i=0, l=howto_titles.length; i<l; i++) {
-		
-		var detail = $(howto_detail[i]);
-		
-		var skill_use = $(howto_skills[i]).find('dl');
-		// console.log(skill_use.length);
-		var skill_group = {};
-		//技能部分
-		for (var j=0, jl=skill_use.length; j<jl; i++) {
+	var howto_titles = document.find("#tab1 ul.J_nav li[record]");
+	//多玩上copy下来改写的,获取攻略数据
+	var titles = [];
+	
+    howto_titles.each(function() {
+        titles.push({
+        	id: $(this).attr('record'),
+			text: $(this).html()
+        });
+    });
+	
+    var url = "http://db.duowan.com/lolcz/api/zq.php?callback=fun";
+    // var len = ids.length;
+	//暂时设置为同步
 
-			var skill_to_use = $(skill_use[j]);
-			
-			skill_group[j] = {};
-			skill_group[j].title = skill_to_use.find('dt').html();
-			
-			skill_group[j].order = [];
-			
-			var skills_img = skill_to_use.find('dd img');
-			for (var k=0, kl=skills_img.length; k<kl; j++) {
-				skill_group[j].order.push(
-					$(skills_img[k]).attr('skill')
-				);
+	for (var i=0; i<len; i++) {
+	    lnet.get(url+"&id="+titles[i].id,
+			function(data) {
+				console.log("-------")
+				console.log( document.find('#hero-topic').find('.first-hd').find('h1').html() );
+				data = data.replace("fun", "");
+	        	data = eval(data);
+				console.log(data.ch_name+" "+data.en_name);
+				console.log(titles[i].text);
+				// console.log( howto_titles.get(i).html() );
+				console.log("加点次序:"+data.skill);
+				
+				//前期出装
+				arr_pre_cz = data.pre_cz.split(',');
+				var cz_names = [];
+				for (var j=0; j<arr_pre_cz.length; j++) {
+					cz_names.push( zb[ arr_pre_cz[j] ].name );
+				}
+				console.log("前期出装:"+cz_names.join(',') );
 			}
-			
-			
-		}
-		// howto[i] = {
-// 			title: skill_group[j].title,
-// 			order: skill_group[j].order
-// 		};
+	    );
 	}
-	
-	// console.log("-------");
-	// console.log( document.find('#hero-topic').find('.first-hd').find('h1').html() );
-	// console.log(howto);
-	// console.log("-------");
-	//英雄详细信息
-	// var heroDetail = {
-// 		intro: document.find('.hero-intro').find('.txt').find('p').html()
-// 	}
-	
-	
-	
+   
+}
+
+function parseJSONStyle_Object(data) {
+	// return eval()
 }
 
 //保存英雄列表数据到文件
