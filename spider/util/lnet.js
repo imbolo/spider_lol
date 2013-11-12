@@ -1,6 +1,6 @@
 var http = require('http');
 	
-//获取英雄技能
+//简化httpget操作
 exports.get = function(url, callback) {
 	http.get(url, function(res) {
 		// console.log("Got response: " + res.statusCode);
