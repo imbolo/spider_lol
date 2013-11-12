@@ -3,10 +3,35 @@ var $ = require('jquery'),
 	fs = require('fs'),
 	lnet = require('./util/lnet.js'),
 	db = require("mongous").Mongous,
-	zb = require('./data/zbItems');
+	zb = require('./data/zbItems'),
+	config = require('./config');
 
-// getHerosAbilities();
-getHeroList();	
+main(false);
+
+function main(forceUpdateAll) {
+	//强制更新
+	if (forceUpdateAll == true) {
+		getHeroList();	
+	}
+	else {
+		db('db.heros').find(config.MaxQueryLine, function(reply) {
+			//如果英雄数量正确，则视为已经储存过英雄数据，不再从网上抓取
+			if(reply.documents.length == config.NumHeros) {
+				var heros = reply.documents;
+		
+				heros.forEach(function(hero) {
+					//为每一个英雄抓取攻略数据
+					getHeroGonglve(hero);
+				});
+			}
+			else {
+				//重新抓取数据
+				getHeroList();	
+			}
+		});
+	}
+	
+}
 
 //获取英雄列表页面
 function getHeroList() {
@@ -40,30 +65,40 @@ function analysisHeroListPage(pageData) {
 			detail_url:  heroItem.find("a").attr('href').replace(" ", ''),
 			icon: heroItem.find(".champion_icon").attr('src').replace(" ", '')
 		};
+		console.log(l-i);
+		if (l-i != 70) {
+			continue;
+		}
+		
+		console.log("swai");
 		console.log("save hero --- "+ hero.name);
 		db('db.heros').save(hero);
 		// saveHeroListToFile(hero);
-		(function(hero) {
-			http.get(hero.detail_url, function(res) {
-				// console.log("Got response: " + res.statusCode);
-				var pageData = "";
-				res.setEncoding('utf8');
-				res.on('data', function (chunk) {
-					pageData += chunk;
-				});
-				//获取完毕，解析
-				res.on('end', function(){
-					//解析
-					// fs.writeFile('./tmp/'+hero.name+'.html', pageData);
-					analysisHeroDetailPage(pageData, hero);
-				});
-  
-			});
-		})(hero);
-		
+		getHeroGonglve(hero);
 	}
 	
 }
+
+//从远程根据英雄数据获取英雄攻略
+function getHeroGonglve(hero) {
+	http.get(hero.detail_url, function(res) {
+		// console.log("Got response: " + res.statusCode);
+		var pageData = "";
+		res.setEncoding('utf8');
+		res.on('data', function (chunk) {
+			pageData += chunk;
+		});
+		//获取完毕，解析
+		res.on('end', function(){
+			//解析
+			// fs.writeFile('./tmp/'+hero.name+'.html', pageData);
+			analysisHeroDetailPage(pageData, hero);
+		});
+
+	});
+};
+	
+
 //解析英雄详细信息页面
 function analysisHeroDetailPage(pageData, hero) {
 	var document = $(pageData);
