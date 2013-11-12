@@ -13,3 +13,4 @@ spider_lol
 
 
 ####client目录是一个简单的客户端，查询英雄的出装和加点
+client是一个简单的网页，可以用phonegap打包一下使用
