@@ -40,6 +40,7 @@ function analysisHeroListPage(pageData) {
 			detail_url:  heroItem.find("a").attr('href').replace(" ", ''),
 			icon: heroItem.find(".champion_icon").attr('src').replace(" ", '')
 		};
+		console.log("save hero --- "+ hero.name);
 		db('db.heros').save(hero);
 		// saveHeroListToFile(hero);
 		(function(hero) {
