@@ -1,0 +1,11 @@
+{
+  "name": "server-lol",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+	"mongous": "0.2.4"
+  }
+}
