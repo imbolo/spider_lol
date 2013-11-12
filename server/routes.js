@@ -22,6 +22,7 @@ route['/test'] = function (req, res) {
 route['/hero/list'] = function (req, res) {
 	db('db.heros').find(120,function(r) {
 		var data = r.documents;
+		
 		res.writeHeader(200, {'Content-Type':'text/javascript;charset=UTF-8'});
 		res.write(JSON.stringify(data));
 		res.end();
