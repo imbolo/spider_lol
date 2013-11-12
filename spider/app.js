@@ -132,10 +132,12 @@ function analysisHeroDetailPage(pageData, hero) {
 		hero_enName: null,
 		contents : []
 	};
+	var completeFlag = 0;
 	for (var i=0; i<len; i++) {
 	    (function(i){
 			lnet.get(url+"&id="+titles[i].id,
 					function(data) {
+						completeFlag ++;
 						
 						data = data.replace("fun", "");
 			        	data = eval(data);
@@ -182,28 +184,30 @@ function analysisHeroDetailPage(pageData, hero) {
 							gonglve.nf_cz = cz_names.join(',');
 						}	
 						
-					
-						
-						console.log("-------")
+											
 						gonglves.contents.push(gonglve);
-						if(i == len-1) {
+						
+						if (completeFlag == len) {
+						// if(i == len-1) {
 							gonglves.hero_chName = data.ch_name;
 							gonglves.hero_enName = data.en_name;
-							console.log(gonglves);
 							
 							db('db.gonglves').save(gonglves);
+							
+							console.log("-------")
+							console.log(++num);
+							console.log(gonglves);
+							//抓取完毕
+							if(num == config.NumHeros) {
+								process.exit(0);
+							}
 						}
-						// console.log(hero_title);
-						// console.log( document.find('#hero-topic').find('.first-hd').find('h1').html() );
+			
 					}
 			    );
 	     })(i);
 	}
-   
-	// console.log(gonglves);
-	
-	num ++ ;
-	console.log(num);
+   		
 }
 
 
