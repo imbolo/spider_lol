@@ -6,6 +6,8 @@ var $ = require('jquery'),
 	zb = require('./data/zbItems'),
 	config = require('./config');
 
+var num = 0;
+
 main(false);
 
 function main(forceUpdateAll) {
@@ -20,6 +22,7 @@ function main(forceUpdateAll) {
 				console.log("英雄数量正确，从本地加载英雄列表");
 				var heros = reply.documents;
 		
+				var i = 0;
 				heros.forEach(function(hero) {
 					//为每一个英雄抓取攻略数据
 					getHeroGonglve(hero);
@@ -67,12 +70,7 @@ function analysisHeroListPage(pageData) {
 			detail_url:  heroItem.find("a").attr('href').replace(" ", ''),
 			icon: heroItem.find(".champion_icon").attr('src').replace(" ", '')
 		};
-		console.log(l-i);
-		if (l-i != 70) {
-			continue;
-		}
-		
-		console.log("swai");
+
 		console.log("save hero --- "+ hero.name);
 		db('db.heros').save(hero);
 		// saveHeroListToFile(hero);
@@ -203,11 +201,11 @@ function analysisHeroDetailPage(pageData, hero) {
 	}
    
 	// console.log(gonglves);
+	
+	num ++ ;
+	console.log(num);
 }
 
-function parseJSONStyle_Object(data) {
-	// return eval()
-}
 
 //保存英雄列表数据到文件
 function saveHeroListToFile(hero) {
