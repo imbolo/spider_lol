@@ -17,6 +17,7 @@ function main(forceUpdateAll) {
 		db('db.heros').find(config.MaxQueryLine, function(reply) {
 			//如果英雄数量正确，则视为已经储存过英雄数据，不再从网上抓取
 			if(reply.documents.length == config.NumHeros) {
+				console.log("英雄数量正确，从本地加载英雄列表");
 				var heros = reply.documents;
 		
 				heros.forEach(function(hero) {
@@ -35,6 +36,7 @@ function main(forceUpdateAll) {
 
 //获取英雄列表页面
 function getHeroList() {
+	console.log("从 http://lol.duowan.com/hero/ 抓取英雄列表");
 	http.get("http://lol.duowan.com/hero/", function(res) {
 		// console.log("Got response: " + res.statusCode);
 		var pageData = "";
