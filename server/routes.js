@@ -21,7 +21,7 @@ route['/test'] = function (req, res) {
 * */
 route['/hero/list'] = function (req, res) {
     var result = [];
-	db('db.heros').find({},{id:1, name: 1, icon: 1, _id: 0},{sort:{id:-1}}, function(r) {
+	db('db.heros').find({},{_id: 0},{sort:{id:-1}}, function(r) {
 
         result = result.concat(r.documents);
 
