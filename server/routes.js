@@ -21,15 +21,15 @@ route['/test'] = function (req, res) {
 * */
 route['/hero/list'] = function (req, res) {
     var result = [];
-	db('db.heros').find(function(r) {
+	db('db.heros').find({},{id:1, name: 1, icon: 1, _id: 0},{sort:{id:-1}}, function(r) {
         console.log(Object.prototype.toString.call(r.documents));
         result = result.concat(r.documents);
-
+        console.log(!r.more);
         if (!r.more) {
 
-            result.sort(function(a, b) {
-                return b.id - a.id;
-			});
+//            result.sort(function(a, b) {
+//                return b.id - a.id;
+//			});
 
 
             res.writeHeader(200, {'Content-Type':'text/javascript;charset=UTF-8'});
