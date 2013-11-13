@@ -22,11 +22,8 @@ route['/test'] = function (req, res) {
 route['/hero/list'] = function (req, res) {
     var result = [];
 	db('db.heros').find(function(r) {
-
-        for (var i in r.documents) {
-            result.push(r.documents[i]);
-            console.log( typeof r.documents[i] );
-        }
+        console.log(Object.prototype.toString.call(r.documents));
+        result = result.concat(r.documents);
 
         if (!r.more) {
 

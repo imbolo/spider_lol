@@ -3,122 +3,12 @@
 <head>
 	<title>Page Title</title>
 	<meta charset='utf8'>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-	<link rel="stylesheet" href="libs/jquery/jquerymobile/jquery.mobile-1.3.2.min.css" type="text/css" media="screen" title="no title" charset="utf-8">
-
-	<script src="libs/jquery/2.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-	
-	<script src="libs/jquery/jquerymobile/jquery.mobile-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
-	
-	<style>
-	#gonglve p {
-		white-space:normal;
-	}
-	</style>
 </head>
 <body>
-
-<div data-role="page">
-
-	<div id="homePage" data-role="header" data-position="fixed" >
-		<h1>英雄列表</h1>
-	</div><!-- /header -->
-
-	<div data-role="content">
-		<ul id="heroList" data-role="listview" data-filter="true" data-filter-placeholder="Search heros..." data-inset="true">
-		    
-		</ul>
-	</div><!-- /content -->
-
-	<!-- <div data-role="footer">
-		<h4>Page Footer</h4>
-	</div> --><!-- /footer -->
-</div><!-- /page -->
-
-<div id="detailPage" data-role="page">
-
-	<div data-role="header" data-position="fixed" >
-		<a data-rel="back" data-theme="i" class="ui-btn-left"  data-role="button">主页</a>
-		<h1 id="heroName">英雄</h1>
-	</div><!-- /header -->
-
-	<div data-role="content">
-		<br/>
-		<div id="gonglve">
-			
-		</div>
-		
-		
-	</div><!-- /content -->
-
-	<!-- <div data-role="footer">
-		<h4>Page Footer</h4>
-	</div> --><!-- /footer -->
-</div>
-
+	<script>
+	location.href = "main.html";
+	</script>
 </body>
-<script>
-// var HOST_NAME="http://localhost:3000";
-var HOST_NAME="http://lol.mrcoder.org:3000";
-$(function(){
-	$('[data-position=fixed]').fixedtoolbar({ tapToggle:false});
-	$.mobile.showPageLoadingMsg();
-	$.getJSON(HOST_NAME+"/hero/list", function(data) {
-		$.mobile.hidePageLoadingMsg();
-		console.log(data);
-		var markup = "";
-		data.forEach(function(hero) {
-			markup += '<li><a >' +
-			        '<img height="80" width="80" src="'+hero.icon+'">' +
-			        '<h2>' + hero.title + ' ' + hero.name + '</h2>' +
-					'<p>' + hero.id + '</p>' +
-			        '</a>' +
-		    '</li>';
-		});
-		
-		$('#heroList').html(markup).listview('refresh');
-	});
-	//点击英雄列表
-	$('#heroList').on('click', 'li a', function(evt) {
-		var heroStr = $(this).find('h2').html();
-		var heroStrArr = heroStr.split(" ");
-		var hero_title = heroStrArr[0];
-		
-		//修改标题，切换页面
-		$('#detailPage h1#heroName').html(hero_title);
-		$.mobile.changePage('#detailPage', {transition: 'none'});
-		
-		$.mobile.showPageLoadingMsg();
-		$.getJSON(HOST_NAME+"/hero?hero_title="+hero_title, function(data) {
-			$.mobile.hidePageLoadingMsg()
-			console.log(data);
-			var markup = "";
-			data[0].contents.forEach(function(gl) {
-				markup +=
-				'<ul data-role="listview" data-inset="true" data-divider-theme="d">' +
-				   ' <li data-role="list-divider">'+gl.type_name+'</li>'+
-				    '<li>'+
-						'<h4>加点顺序</h4>'+
-						'<p>'+gl.skill+'</p>'+
-						'<h4>前期出装</h4>'+
-						'<p>'+gl.pre_cz+'</p>'+
-						'<h4>中期出装</h4>'+
-						'<p>'+gl.mid_cz+'</p>'+
-						'<h4>后期神装</h4>'+
-						'<p>'+gl.end_cz+'</p>'+
-						'<h4>逆风出装</h4>'+
-						'<p>'+gl.nf_cz+'</p>'+
-					'</li>'+
-				'</ul>';
-			});
-			$('#gonglve').html(markup);
-			var listview = $('#gonglve ul');
-			for (var i=0, l=listview.length; i<l; i++) {
-				$(listview[i]).listview();
-			}
-		});
-	});
-});
-</script>
 </html>
