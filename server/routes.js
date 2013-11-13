@@ -20,12 +20,25 @@ route['/test'] = function (req, res) {
 * /hero列表
 * */
 route['/hero/list'] = function (req, res) {
-	db('db.heros').find(120,function(r) {
-		var data = r.documents;
-		
-		res.writeHeader(200, {'Content-Type':'text/javascript;charset=UTF-8'});
-		res.write(JSON.stringify(data));
-		res.end();
+    var result = [];
+	db('db.heros').find(function(r) {
+
+        for (var i in r.documents) {
+            result.push(r.documents[i]);
+            console.log( typeof r.documents[i] );
+        }
+
+        if (!r.more) {
+
+            result.sort(function(a, b) {
+                return b.id - a.id;
+			});
+
+
+            res.writeHeader(200, {'Content-Type':'text/javascript;charset=UTF-8'});
+		    res.write(JSON.stringify(result));
+            res.end();
+        }
 	});
 }
 

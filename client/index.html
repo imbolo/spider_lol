@@ -59,10 +59,12 @@
 
 </body>
 <script>
+// var HOST_NAME="http://localhost:3000";
+var HOST_NAME="http://lol.mrcoder.org:3000";
 $(function(){
 	$('[data-position=fixed]').fixedtoolbar({ tapToggle:false});
 	$.mobile.showPageLoadingMsg();
-	$.getJSON("http://lol.mrcoder.org:3000/hero/list", function(data) {
+	$.getJSON(HOST_NAME+"/hero/list", function(data) {
 		$.mobile.hidePageLoadingMsg();
 		console.log(data);
 		var markup = "";
@@ -70,6 +72,7 @@ $(function(){
 			markup += '<li><a >' +
 			        '<img height="80" width="80" src="'+hero.icon+'">' +
 			        '<h2>' + hero.title + ' ' + hero.name + '</h2>' +
+					'<p>' + hero.id + '</p>' +
 			        '</a>' +
 		    '</li>';
 		});
@@ -87,7 +90,7 @@ $(function(){
 		$.mobile.changePage('#detailPage', {transition: 'none'});
 		
 		$.mobile.showPageLoadingMsg();
-		$.getJSON("http://lol.mrcoder.org:3000/hero?hero_title="+hero_title, function(data) {
+		$.getJSON(HOST_NAME+"/hero?hero_title="+hero_title, function(data) {
 			$.mobile.hidePageLoadingMsg()
 			console.log(data);
 			var markup = "";
