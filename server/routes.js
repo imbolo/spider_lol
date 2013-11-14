@@ -21,7 +21,7 @@ route['/test'] = function (req, res) {
 * */
 route['/hero/list'] = function (req, res) {
     var result = [];
-	db('db.heros').find({},{_id: 0, detail_url: 0},{sort:{id:-1}}, function(r) {
+	db('db.heros').find({id: {$gt: 0}},{_id: 0, detail_url: 0}, function(r) {
 
         result = result.concat(r.documents);
 
@@ -39,7 +39,7 @@ route['/hero/list'] = function (req, res) {
 * 根据hero_title,hero_chName,hero_enName,hero_id查询
 * */
 route['/hero'] = function (req, res) {
-	db('db.gonglves').find(req.params,function(r) {
+	db('db.gonglves').find(req.params, {_id: 0},function(r) {
 		var data = r.documents;
 		res.writeHeader(200, {'Content-Type':'text/javascript;charset=UTF-8'});
 		res.write(JSON.stringify(data));
