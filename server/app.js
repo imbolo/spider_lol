@@ -2,7 +2,8 @@ var
 http = require('http'),
 qs = require('querystring'),
 url = require('url'),
-routes = require('./routes');
+routes = require('./routes'),
+staticserver = require('./staticserver');
 	
 http.createServer(handleRequest).listen(3000);
 
@@ -18,9 +19,9 @@ function handleRequest(req, res) {
 		handle(req, res);
 	}
 	else {
-		res.writeHead(500);
-		res.write("unvaliable path name");
-		res.end();
+		var fileName = __dirname+parsedUrl.pathname;
+		console.log("read file:"+fileName);
+		staticserver(fileName, req, res);		
 	}
 
 }

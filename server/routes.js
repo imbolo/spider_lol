@@ -2,7 +2,10 @@
 * 访问路径对应逻辑
 * */
 var url = require('url')
-,	db = require("mongous").Mongous;
+,	db = require("mongous").Mongous
+,	zbItems = require('./data/zbItems')
+,	heroSkills = require('./data/heroesAbilities');
+
 var route = {};
 
 module.exports = route;
@@ -41,8 +44,26 @@ route['/hero/list'] = function (req, res) {
 route['/hero'] = function (req, res) {
 	db('db.gonglves').find(req.params, {_id: 0},function(r) {
 		var data = r.documents;
+		
 		res.writeHeader(200, {'Content-Type':'text/javascript;charset=UTF-8'});
 		res.write(JSON.stringify(data));
 		res.end();
 	});
+}
+
+/**
+* 
+* 追加技能图标
+* Q,E,W,E,E...
+* @param strSkill
+* */
+function appendSkillIcon(hero_enName) {
+	var skills = ["Q", "W", "E", "R"];
+	var result = {};
+	var skillName = "";
+	for (var n in skills) {
+		skillName = hero_enName+"_"+skills[n];
+		result[ hero_enName+"_"+skills[n] ] = heroSkills[skillName];
+	}
+	return result;
 }

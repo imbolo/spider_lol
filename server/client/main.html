@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>英雄列表</title>
+	<meta charset='utf8'>
+	<meta name="viewport" content="width=device-width, initial-scale=1,  user-scalable=no">
+	<style type="text/css">
+	body {
+		background: #eec;
+	}
+	</style>
+	<link rel="stylesheet" href="style.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<script src="libs/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+	
+</head>
+<body>
+
+	<script id="templateHeroList" type="text/html">
+	    <li>
+			<div class="icon">
+				<img src="{hero_icon}" />
+			</div>
+			<div class="note">
+				<span>{hero_title}</span>
+			</div>		
+		</li>
+	</script>
+
+<div>	
+	<div >
+		<ul class="herolist" id="heroList">
+		    <div style="text-align:center">
+				<span style="font-size:16px;color:#999;line-height:100px">Loading...</span>
+			</div>
+		</ul>
+	</div><!-- /content -->
+
+	<script>
+	var HOST_NAME="http://192.168.1.172:3000";
+	// var HOST_NAME="http://lol.mrcoder.org:3000";
+	var templateHeroList = document.getElementById('templateHeroList');
+	var heroList = document.getElementById('heroList');
+	function Template(str) {
+		var self = this;
+		self.templateStr = str;
+		self.render = function(data) {
+			return this.templateStr.replace(/\\?\{([^{}]+)\}/g, function(match, name) {
+				return data[name] === undefined ? "" : data[name];
+			});
+		}
+	}
+	var tmpHeroList = new Template(templateHeroList.innerHTML);
+	
+	(function(){
+		$.getJSON(HOST_NAME+"/hero/list", null,function(data) {
+	
+			console.log(data);
+			var markup = "";
+			data.forEach(function(hero) {
+				
+				markup += tmpHeroList.render({hero_icon:hero.icon, hero_title:hero.title})
+			});
+		
+			heroList.innerHTML = markup;
+		});
+		
+		
+		$('#heroList').on('tap', 'li', function(evt) {
+			var hero_title = $(this).find('span').html();
+			location.href="gonglve.html?hero_title="+hero_title;
+		});
+	})();
+
+	</script>
+</body>
+</html>

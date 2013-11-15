@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript">
+	var hero_title = decodeURIComponent( location.href.split('=')[1] );
+	document.title = hero_title;
+	</script>
+	<meta charset='utf8'>
+	<meta name="viewport" content="width=device-width, initial-scale=1,  user-scalable=no">
+	<style type="text/css">
+	body {
+		background: #eec;
+	}
+	</style>
+	<link rel="stylesheet" href="style.css" type="text/css" media="screen" title="no title" charset="utf-8">
+
+	<script src="libs/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="libs/juicer.js" type="text/javascript" charset="utf-8"></script>
+	
+</head>
+<body>
+	<script id="templateGonglve" type="text/html">
+		<div>
+		{@each gonglves as gl}
+		<h2>${gl.hero_title}&nbsp${gl.hero_chName}</h2>
+			{@each gl.contents as content}
+				<h3>${content.type_name}</h3>
+				<span>前期</span>
+				<div style="background: white; border-radius: 5px">
+					<div style="overflow:hidden">
+						<ul class="skilllist">
+							{@each content.skills_pre as skill}
+						    <li>
+								<div class="skill_icon">
+									<img src="http://img.lolbox.duowan.com/abilities/${gl.hero_enName}_${skill}_30x30.png">
+								</div>
+								<div class="skill_key">
+									<span>${skill}</span>
+								</div>		
+							</li>
+							{@/each}
+						</ul>
+					</div>
+					<p>${content.pre_cz}</p>
+				</div>
+
+				<span>中期</span>
+				<div style="background: white; border-radius: 5px">
+					<div style="overflow:hidden">
+						<ul class="skilllist">
+							{@each content.skills_mid as skill}
+						    <li>
+								<div class="skill_icon">
+									<img src="http://img.lolbox.duowan.com/abilities/${gl.hero_enName}_${skill}_30x30.png">
+								</div>
+								<div class="skill_key">
+									<span>${skill}</span>
+								</div>		
+							</li>
+							{@/each}
+						</ul>
+					</div>
+					<p>${content.mid_cz}</p>
+				</div>
+				
+				<span>后期</span>
+				<div style="background: white; border-radius: 5px">
+					<div style="overflow:hidden">
+						<ul class="skilllist">
+							{@each content.skills_end as skill}
+						    <li>
+								<div class="skill_icon">
+									<img src="http://img.lolbox.duowan.com/abilities/${gl.hero_enName}_${skill}_30x30.png">
+								</div>
+								<div class="skill_key">
+									<span>${skill}</span>
+								</div>		
+							</li>
+							{@/each}
+						</ul>
+					</div>
+					<p>${content.end_cz}</p>
+				</div>
+				
+				<span>逆风出装</span>
+				<div style="background: white; border-radius: 5px">
+					<p>${content.end_cz}</p>
+				</div>
+			{@/each}
+		{@/each}
+		</div>
+	</script>
+
+<div>
+
+	<div id="content">
+		
+	</div><!-- /content -->
+
+	<script>
+	// var HOST_NAME="http://lol.mrcoder.org:3000";
+	var HOST_NAME="http://192.168.1.172:3000";
+	var ICON_SKILL_HOST="http://img.lolbox.duowan.com/abilities/";
+	var ICON_ZB_HOST="http://img.lolbox.duowan.com/zb/";
+	
+	var tpl = document.getElementById('templateGonglve').innerHTML;
+	var content = document.getElementById('content');
+	
+	$(function(){
+		getGonglve(hero_title);
+	});
+	
+	function getGonglve(hero_title) {
+		var queryURL = HOST_NAME+"/hero?hero_title="+hero_title;
+		console.log(queryURL);
+		
+		$.getJSON(queryURL, function(data) {
+			
+			console.log(data);
+			if(data.length == 0) {
+				return;
+			}
+			data[0].contents.forEach(function(content) {
+				var skill_arr = content.skill.split(",");
+				content.skills_pre = skill_arr.slice(0, 6);
+				content.skills_mid = skill_arr.slice(6, 12);
+				content.skills_end = skill_arr.slice(12, 18);
+			});
+			
+			var html = juicer(tpl, {
+				gonglves: data
+			});
+			console.log(html);
+			content.innerHTML = html;
+		});
+	}
+	
+	</script>
+</body>
+</html>

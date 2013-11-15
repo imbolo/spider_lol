@@ -146,14 +146,15 @@ function analysisHeroDetailPage(pageData, hero) {
 							type_name: titles[i].text,
 							skill: data.skill,
 							player_skill: player_skills[i].join(","),
-							pre_cz: null,
-							mid_cz: null,
-							end_cz: null,
-							nf_cz: null
+							pre_cz: data.pre_cz,
+							mid_cz: data.min_cz,
+							end_cz: data.end_cz,
+							nf_cz: data.nf_cz
 						};
 						
 						//存在前期出装，即有出装加点攻略数据
-						if (!!data.pre_cz == true) {
+						// if (!!data.pre_cz == true) {
+						if (false) {}	
 							//前期出装
 							var arr_cz = data.pre_cz.split(',');
 							var cz_names = [];

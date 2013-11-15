@@ -1,0 +1,45 @@
+.herolist {
+	list-style: none;
+	margin-left: -34px;
+	font-size: 12px;
+}
+.herolist li {
+	width: 70px;
+	height: 96px;
+	float: left;
+	margin: 2px;
+}
+.herolist img{
+	height: 70px;
+	width: 70px;
+}
+.icon {
+	width: 70px;
+}
+.note {
+	width: 70px;
+	margin-top: -2px;
+	margin-bottom: 8px;
+	text-align: center;
+}
+.note span{
+	height: 10px;
+	white-space:nowrap;
+}
+/*==============================*/
+.skilllist li {
+	float: left;
+	margin: 2px;
+}
+.skilllist{
+	list-style: none;
+	margin-left: -34px;
+	font-size: 12px;
+}
+.skill_icon {
+	width: 30px;
+}
+.skill_key {
+	width: 30px;
+	text-align: center;
+}
