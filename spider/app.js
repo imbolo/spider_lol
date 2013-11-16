@@ -146,6 +146,7 @@ function analysisHeroDetailPage(pageData, hero) {
 						gonglve.type_name = titles[i].text;
 						gonglve.player_skill = player_skills[i].join(",");
 						
+						if()
 						gonglves.contents.push(gonglve);
 						
 						if (completeFlag == len) {

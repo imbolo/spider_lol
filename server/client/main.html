@@ -52,7 +52,7 @@
 	var tmpHeroList = new Template(templateHeroList.innerHTML);
 	
 	(function(){
-		$.getJSON(HOST_NAME+"/hero/list", null,function(data) {
+		$.getJSON("/hero/list", null,function(data) {
 	
 			console.log(data);
 			var markup = "";
