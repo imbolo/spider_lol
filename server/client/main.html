@@ -30,7 +30,7 @@
 	<div >
 		<ul class="herolist" id="heroList">
 		    <div style="text-align:center">
-				<span style="font-size:16px;color:#999;line-height:100px">Loading...</span>
+				<span style="font-size:26px;color:#555;line-height:100px">Loading...</span>
 			</div>
 		</ul>
 	</div><!-- /content -->
@@ -65,7 +65,7 @@
 		});
 		
 		
-		$('#heroList').on('tap', 'li', function(evt) {
+		$('#heroList').on('click', 'li', function(evt) {
 			var hero_title = $(this).find('span').html();
 			localStorage['hero_title'] = hero_title;
 			location.href="gonglve.html";

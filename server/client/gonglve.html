@@ -39,9 +39,19 @@
 								</div>		
 							</li>
 							{@/each}
+					</div>
+					<div style="overflow:hidden">
+						<ul class="skilllist">
+							{@each content.pre_cz as zb}
+						    <li>
+								<div class="zb_icon">
+									<img src="http://img.lolbox.duowan.com/zb/${zb}_50x50.png">
+								</div>	
+							</li>
+							{@/each}
 						</ul>
 					</div>
-					<p>${content.pre_cz}</p>
+					<p>${content.pre_explain}</p>
 				</div>
 
 				<span>中期</span>
@@ -60,7 +70,18 @@
 							{@/each}
 						</ul>
 					</div>
-					<p>${content.mid_cz}</p>
+					<div style="overflow:hidden">
+						<ul class="skilllist">
+							{@each content.mid_cz as zb}
+						    <li>
+								<div class="zb_icon">
+									<img src="http://img.lolbox.duowan.com/zb/${zb}_50x50.png">
+								</div>	
+							</li>
+							{@/each}
+						</ul>
+					</div>
+					<p>${content.mid_explain}</p>
 				</div>
 				
 				<span>后期</span>
@@ -79,12 +100,34 @@
 							{@/each}
 						</ul>
 					</div>
-					<p>${content.end_cz}</p>
+					<div style="overflow:hidden">
+						<ul class="skilllist">
+							{@each content.end_cz as zb}
+						    <li>
+								<div class="zb_icon">
+									<img src="http://img.lolbox.duowan.com/zb/${zb}_50x50.png">
+								</div>	
+							</li>
+							{@/each}
+						</ul>
+					</div>
+					<p>${content.end_explain}</p>
 				</div>
 				
 				<span>逆风出装</span>
 				<div style="background: white; border-radius: 5px">
-					<p>${content.end_cz}</p>
+					<div style="overflow:hidden">
+						<ul class="skilllist">
+							{@each content.end_cz as zb}
+						    <li>
+								<div class="zb_icon">
+									<img src="http://img.lolbox.duowan.com/zb/${zb}_50x50.png">
+								</div>	
+							</li>
+							{@/each}
+						</ul>
+					</div>
+					<p>${content.nf_explain}</p>
 				</div>
 			{@/each}
 		{@/each}
@@ -94,7 +137,9 @@
 <div>
 
 	<div id="content">
-		
+	    <div style="text-align:center">
+			<span style="font-size:26px;color:#555;line-height:100px">Loading...</span>
+		</div>
 	</div><!-- /content -->
 
 	<script>
@@ -125,6 +170,11 @@
 				content.skills_pre = skill_arr.slice(0, 6);
 				content.skills_mid = skill_arr.slice(6, 12);
 				content.skills_end = skill_arr.slice(12, 18);
+				
+				content.pre_cz = content.pre_cz.split(",");
+				content.mid_cz = content.mid_cz.split(",");
+				content.end_cz = content.end_cz.split(",");
+				content.nf_cz = content.nf_cz.split(",");
 			});
 			
 			var html = juicer(tpl, {

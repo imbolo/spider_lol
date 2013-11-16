@@ -142,50 +142,10 @@ function analysisHeroDetailPage(pageData, hero) {
 						data = data.replace("fun", "");
 			        	data = eval(data);
 						
-						var gonglve = {
-							type_name: titles[i].text,
-							skill: data.skill,
-							player_skill: player_skills[i].join(","),
-							pre_cz: data.pre_cz,
-							mid_cz: data.min_cz,
-							end_cz: data.end_cz,
-							nf_cz: data.nf_cz
-						};
+						var gonglve = data;
+						gonglve.type_name = titles[i].text;
+						gonglve.player_skill = player_skills[i].join(",");
 						
-						//存在前期出装，即有出装加点攻略数据
-						// if (!!data.pre_cz == true) {
-						if (false) {}	
-							//前期出装
-							var arr_cz = data.pre_cz.split(',');
-							var cz_names = [];
-							for (var j=0; j<arr_cz.length; j++) {
-								cz_names.push( zb[ arr_cz[j] ].name );
-							}
-							gonglve.pre_cz = cz_names.join(',');
-							//中期
-							arr_cz = data.mid_cz.split(',');
-							cz_names = [];
-							for (var j=0; j<arr_cz.length; j++) {
-								cz_names.push( zb[ arr_cz[j] ].name );
-							}
-							gonglve.mid_cz = cz_names.join(',');
-							//顺丰后期
-							arr_cz = data.end_cz.split(',');
-							cz_names = [];
-							for (var j=0; j<arr_cz.length; j++) {
-								cz_names.push( zb[ arr_cz[j] ].name );
-							}
-							gonglve.end_cz = cz_names.join(',');
-							//逆风后期
-							arr_cz = data.nf_cz.split(',');
-							cz_names = [];
-							for (var j=0; j<arr_cz.length; j++) {
-								cz_names.push( zb[ arr_cz[j] ].name );
-							}
-							gonglve.nf_cz = cz_names.join(',');
-						}	
-						
-											
 						gonglves.contents.push(gonglve);
 						
 						if (completeFlag == len) {
