@@ -156,7 +156,7 @@
 	});
 	
 	function getGonglve(hero_title) {
-		var queryURL = HOST_NAME+"/hero?hero_title="+hero_title;
+		var queryURL = "/hero?hero_title="+hero_title;
 		console.log(queryURL);
 		
 		$.getJSON(queryURL, function(data) {
