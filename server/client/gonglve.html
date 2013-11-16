@@ -2,7 +2,7 @@
 <html>
 <head>
 	<script type="text/javascript">
-	var hero_title = decodeURIComponent( location.href.split('=')[1] );
+	var hero_title = localStorage['hero_title'];
 	document.title = hero_title;
 	</script>
 	<meta charset='utf8'>
@@ -130,7 +130,7 @@
 			var html = juicer(tpl, {
 				gonglves: data
 			});
-			console.log(html);
+			
 			content.innerHTML = html;
 		});
 	}

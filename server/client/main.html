@@ -67,7 +67,8 @@
 		
 		$('#heroList').on('tap', 'li', function(evt) {
 			var hero_title = $(this).find('span').html();
-			location.href="gonglve.html?hero_title="+hero_title;
+			localStorage['hero_title'] = hero_title;
+			location.href="gonglve.html";
 		});
 	})();
 

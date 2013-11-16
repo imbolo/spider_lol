@@ -1,5 +1,7 @@
 var fs = require('fs')
-,	config = require('./config');
+,	path = require('path')
+,	config = require('./config')
+,	mime = require('./mime').types;
 
 module.exports = function(filename, req, res) {
 	filename = filename.replace(/\.\./g, "");
@@ -25,6 +27,12 @@ module.exports = function(filename, req, res) {
 							expires.setTime(expires.getTime() + config.Expires.maxAge * 1000);
 							res.setHeader("Expires", expires.toUTCString());
 							res.setHeader("Cache-Control", "max-age=" + config.Expires.maxAge);
+							
+							var ext = path.extname(filename);
+							ext = ext ? ext.slice(1) : 'unknown';
+							var contentType = mime[ext] || "text/plain";
+							res.writeHead(200, {'Content-Type': contentType});
+							
 							res.write(data);
 							res.end();
 						}
