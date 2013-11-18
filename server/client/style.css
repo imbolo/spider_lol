@@ -15,7 +15,15 @@
 		margin: 1%;
 	}
 }
-    
+@media screen and (min-width: 960px ) {
+	.herolist li {
+		width: 8%;
+		height: 8%;
+		float: left;
+		margin: 1%;
+	}
+}
+
 * {
 	    padding: 0px;
 }
