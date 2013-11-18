@@ -1,52 +1,66 @@
+@media screen and (max-width: 480px) {
+    .herolist li {
+		width: 23%;
+		height: 23%;
+		float: left;
+		margin: 1%;
+	}
+}
+  
+@media screen and (min-width: 480px) {
+	.herolist li {
+		width: 14.6%;
+		height: 14.6%;
+		float: left;
+		margin: 1%;
+	}
+}
+    
+* {
+	    padding: 0px;
+}
 p{
-	padding: 10px;
+		padding: 10px;
 }
 .herolist {
-	list-style: none;
-	margin-left: -34px;
-	font-size: 12px;
+		list-style: none;
+			font-size: 12px;
 }
-.herolist li {
-	width: 70px;
-	height: 96px;
-	float: left;
-	margin: 2px;
-}
+
 .herolist img{
-	height: 70px;
-	width: 70px;
+		
+		width: 100%;
 }
 .icon {
-	width: 70px;
+		width: 100%;
 }
 .note {
-	width: 70px;
-	margin-top: -2px;
-	margin-bottom: 8px;
-	text-align: center;
+		width: 100%;
+				text-align: center;
 }
 .note span{
-	height: 10px;
-	white-space:nowrap;
+		height: 1%;
+					white-space:nowrap;
 }
 /*==============================*/
 .skilllist li {
-	float: left;
-	margin: 2px;
+		float: left;
+				margin: 2px;
 }
 .skilllist{
-	list-style: none;
-	margin-left: -34px;
-	font-size: 12px;
+		list-style: none;
+			padding-left: 2px;
+				font-size: 12px;
 }
 .skill_icon {
-	width: 30px;
-	height: 33px;
+		width: 30px;
+				height: 33px;
 }
 .skill_key {
-	width: 30px;
-	text-align: center;
+		width: 30px;
+				text-align: center;
 }
 .zb_icon {
-	width: 50px;
+		width: 50px;
 }
+
